@@ -7,18 +7,18 @@ const newLineRegex = new RegExp('/[\n\r]/g');
 
 (async function determineLargestCalorieCountFromInput() {
     const calorieTotals = await buildElfCalorieTotalsFromInput()
-    const biggestCalorieCount = await getLargestValue(calorieTotals);
+    const biggestCalorieCount =  getLargestValue(calorieTotals);
     console.log('Biggest calorie count: ' + biggestCalorieCount);
 })();
 
 // This is not the most efficient but IDC about 3n vs n 😎
 (async function determineThreeLargestCalorieCountTotalFromInput(){
     var calorieTotals = await buildElfCalorieTotalsFromInput()
-    const firstLargest = await getLargestValue(calorieTotals);
+    const firstLargest = getLargestValue(calorieTotals);
     calorieTotals = dropValueFromArray(firstLargest, calorieTotals);
-    const secondLargest = await getLargestValue(calorieTotals);
+    const secondLargest = getLargestValue(calorieTotals);
     calorieTotals = dropValueFromArray(secondLargest, calorieTotals);
-    const thirdLargest = await getLargestValue(calorieTotals);
+    const thirdLargest = getLargestValue(calorieTotals);
     console.log('Three biggest calorie count total: ' + (firstLargest + secondLargest + thirdLargest));
 })();
 
@@ -28,13 +28,13 @@ function dropValueFromArray(value, array): number[]{
     return array;
 }
 
-async function getLargestValue(numArray: number[]) {
+function getLargestValue(numArray: number[]) {
     var biggestValue = 0;
-    await Promise.all(numArray.map(value => {
+    numArray.forEach(value => {
         if (value > biggestValue) {
             biggestValue = value;
         }
-    }));
+    });
 
     return biggestValue;
 }
