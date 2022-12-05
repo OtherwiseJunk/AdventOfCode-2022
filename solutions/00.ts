@@ -3,7 +3,7 @@ const fs =require('fs');
 const readline =require('readline');
 
 var elfNumber = 0;
-var calorieTotals: number[] = new Array();
+var calorieTotals: number[] = [];
 var rollingCalorieCount = 0;
 var biggestCalorieCount = 0;
 const newLineRegex = new RegExp('/[\n\r]/g');
