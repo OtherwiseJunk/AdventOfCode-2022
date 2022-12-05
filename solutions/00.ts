@@ -1,14 +1,49 @@
-const events =require('events');
-const fs =require('fs');
-const readline =require('readline');
+const events = require('events');
+const fs = require('fs');
+const readline = require('readline');
 
-var elfNumber = 0;
-var calorieTotals: number[] = [];
-var rollingCalorieCount = 0;
 var biggestCalorieCount = 0;
 const newLineRegex = new RegExp('/[\n\r]/g');
 
 (async function determineLargestCalorieCountFromInput() {
+    const calorieTotals = await buildElfCalorieTotalsFromInput()
+    const biggestCalorieCount = await getLargestValue(calorieTotals);
+    console.log('Biggest calorie count: ' + biggestCalorieCount);
+})();
+
+// This is not the most efficient but IDC about 3n vs n 😎
+(async function determineThreeLargestCalorieCountTotalFromInput(){
+    var calorieTotals = await buildElfCalorieTotalsFromInput()
+    const firstLargest = await getLargestValue(calorieTotals);
+    calorieTotals = dropValueFromArray(firstLargest, calorieTotals);
+    const secondLargest = await getLargestValue(calorieTotals);
+    calorieTotals = dropValueFromArray(secondLargest, calorieTotals);
+    const thirdLargest = await getLargestValue(calorieTotals);
+    console.log('Three biggest calorie count total: ' + (firstLargest + secondLargest + thirdLargest));
+})();
+
+function dropValueFromArray(value, array): number[]{
+    const index = array.indexOf(value);
+    array.splice(index,1);
+    return array;
+}
+
+async function getLargestValue(numArray: number[]) {
+    var biggestValue = 0;
+    await Promise.all(numArray.map(value => {
+        if (value > biggestValue) {
+            biggestValue = value;
+        }
+    }));
+
+    return biggestValue;
+}
+
+async function buildElfCalorieTotalsFromInput(): Promise<number[]> {
+    var elfNumber = 0;
+    var calorieTotals: number[] = [];
+    var rollingCalorieCount = 0;
+
     try {
         const rl = readline.createInterface({
             input: fs.createReadStream('./input/00.txt'),
@@ -25,25 +60,11 @@ const newLineRegex = new RegExp('/[\n\r]/g');
                 rollingCalorieCount += parseInt(line);
             }
         });
-
         await events.once(rl, 'close');
 
-        calorieTotals.sort();
-        console.log('Counted '+(elfNumber+1)+' Elves.')
-        console.log('Calorie Totals Calculated: '+ calorieTotals.join('\n'));
-        
-        await Promise.all(calorieTotals.map(total =>{
-            if(total > biggestCalorieCount){
-                biggestCalorieCount = total;
-            }
-        }));
-
-        console.log('Biggest calorie count: '+ biggestCalorieCount);
-
+        return calorieTotals;
     }
-catch (err) {
-    console.error(err);
+    catch (err) {
+        console.error(err);
+    }
 }
-})();
-
-export class deez{};
