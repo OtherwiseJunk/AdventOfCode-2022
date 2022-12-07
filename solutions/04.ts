@@ -54,6 +54,6 @@ function extractStackArrayFromStartingState(startingStacksState){
             return;
         });
     })
-
+    // transpose matrix, dropping the undefined entries.
     return transpose(stackEntries).map((e) => e.filter(Boolean).reverse()) as string[][]
 }
