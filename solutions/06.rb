@@ -29,6 +29,6 @@ end
 
 minimumFileSize = spaceToFree - (totalDiskSpace - directories[["/"]])
 
-puts directories.select{|path, size| size <= maxFileSize}.values.sum
+puts directories.values.select{|size| size <= maxFileSize}.sum
 
 puts directories.values.select{|size| size >= minimumFileSize}.min
