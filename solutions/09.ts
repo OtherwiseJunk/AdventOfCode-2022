@@ -1,4 +1,3 @@
-import { serialize } from 'v8';
 import { readInputWithoutNewlines } from '../helpers/';
 
 let input: string[] = readInputWithoutNewlines("09");
