@@ -1,4 +1,4 @@
-import { readRawInput, rotateClockwise } from '../helpers/';
+import { readRawInput } from '../helpers/';
 
 const input: string = readRawInput('07');
 let highestScenicScore = 0;
